@@ -6,8 +6,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: meuusuario
-      POSTGRES_PASSWORD: minhasenha
-      POSTGRES_DB: meubanco
+      POSTGRES_USER: SuperUser
+      POSTGRES_PASSWORD: tms@82815523
+      POSTGRES_DB: supermarketScanner
     volumes:
-      - "G:/Meu Drive/postgres-data:/var/lib/postgresql/data"
+      - "G:/My Drive/Database/SuperMarket:/var/lib/postgresql/data"
