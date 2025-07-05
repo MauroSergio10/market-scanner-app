@@ -1,16 +1,16 @@
 package com.marketscan.market.Model;
-
-
 import jakarta.persistence.*;
+import lombok.Setter;
 
 @Entity
-@Table(name = "User")
+@Table(name = "users")
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
 
+    @Setter
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
 
@@ -20,10 +20,11 @@ public class User{
  // Getters and setteres
 
     public Long getId() {return id; }
+
     public String getCpf() {return cpf; }
-    public void setCpf(String cpf) {this.cpf = cpf;}
+
     public String getSenha() {return senha;}
-    public void setSenha(String senha) {senha = this.senha;}
+    public void setSenha(String senha) {this.senha = senha;}
 
 
 
