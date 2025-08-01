@@ -1,11 +1,15 @@
 package com.marketscan.market.Controller;
 import com.marketscan.market.Model.User;
 import com.marketscan.market.Repository.UserRepository;
+import com.marketscan.market.Utils.JWT.JWTProvider;
+import com.marketscan.market.Utils.JWT.TokenDTO;
 import com.marketscan.market.Utils.ValidarCPF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 import java.util.Optional;
 
@@ -19,6 +23,8 @@ public class AuthController {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JWTProvider jwtProvider;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User loginData){
@@ -26,8 +32,9 @@ public class AuthController {
         if (userOPT.isPresent()) {
             User user = userOPT.get();
 
-            if (user.getSenha().equals(loginData.getSenha())){
-                return ResponseEntity.ok("Login Sucesso");
+            if (passwordEncoder.matches(loginData.getSenha(), user.getSenha())){
+                String token = jwtProvider.gerarToken(loginData.getNome());
+                return ResponseEntity.ok(new TokenDTO(token));
             }else {
                 return ResponseEntity.status(401).body("Senha incorreta");
             }

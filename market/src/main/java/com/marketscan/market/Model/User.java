@@ -1,9 +1,16 @@
 package com.marketscan.market.Model;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.Getter;
 import lombok.Setter;
+
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,15 +24,12 @@ public class User{
     @Column(nullable = false)
     private String senha;
 
- // Getters and setteres
+    @Column(nullable = false, length = 40)
+    @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s]+$", message = "Nome deve conter apenas letras")
+    private String nome;
 
-    public Long getId() {return id; }
-
-    public String getCpf() {return cpf; }
-
-    public String getSenha() {return senha;}
-    public void setSenha(String senha) {this.senha = senha;}
-
-
-
+    @NotBlank(message = "O e-mail é obrigatorio.")
+    @Email(message = "Formato de e-mail inválido.")
+    @Column(nullable = false, unique = true)
+    private String email;
 }
